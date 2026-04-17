@@ -67,7 +67,12 @@ displaynotification() { # $1: message $2: title
     swiftdialog="/usr/local/bin/dialog"
 
     if [[ "$($swiftdialog --version | cut -d "." -f1)" -ge 2 && "$NOTIFY_DIALOG" -eq 1 ]]; then
-        "$swiftdialog" --notification --title "$title" --message "$message"
+        # if DIALOG_KEY is provided we add it to the arguments for swiftDialog
+        if [[ ! -z $DIALOG_KEY ]]; then
+            "$swiftdialog" --key "${DIALOG_KEY}"--notification --title "$title" --message "$message"
+        else
+            "$swiftdialog" --notification --title "$title" --message "$message"
+        fi
     elif [[ -x "$manageaction" ]]; then
          "$manageaction" -message "$message" -title "$title" &
     elif [[ -x "$hubcli" ]]; then
