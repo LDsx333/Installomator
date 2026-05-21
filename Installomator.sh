@@ -3725,7 +3725,7 @@ clickshare)
     name="ClickShare"
     type="zip"
     json_feed=$(curl -fsL "https://assets.cloud.barco.com/clickshare/release/release.mac")
-    appNewVersion=$(getJSONValue "${json_feed}" 'version')
+    appNewVersion=$(getJSONValue "${json_feed}" 'version' | tr -d 'b' | tr "-" ".")
     file_name=$(getJSONValue "${json_feed}" 'name')
     downloadURL="https://assets.cloud.barco.com/clickshare/release/${file_name}"
     expectedTeamID="P6CDJZR997"
@@ -5643,6 +5643,7 @@ googledrivebackupandsync)
 googleearth)
     name="Google Earth Pro"
     type="pkgInDmg"
+    appNewVersion=$(curl -fsL "https://www.google.com/earth/about/versions/\#download-pro" | grep -oi "<strong>version [0-9\.]*" | grep -o "[0-9\.]*")
     downloadURL="https://dl.google.com/earth/client/advanced/current/GoogleEarthProMac-Intel.dmg"
     expectedTeamID="EQHXZ8M8AV"
     ;;
