@@ -207,7 +207,6 @@ cinema4d2025
 cinema4d2026
 cisdem-documentreader
 citrixworkspace
-claudedesktop
 cleartouchcollage
 clevershare2
 clickshare
@@ -929,7 +928,6 @@ suitestudio
 supercollider
 superhuman
 superwhisper
-supportapp
 surfdrive
 suspiciouspackage
 swiftdialog
