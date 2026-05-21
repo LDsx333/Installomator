@@ -929,6 +929,7 @@ suitestudio
 supercollider
 superhuman
 superwhisper
+supportapp
 surfdrive
 suspiciouspackage
 swiftdialog

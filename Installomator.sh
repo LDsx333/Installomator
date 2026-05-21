@@ -182,7 +182,7 @@ DIALOG_LIST_ITEM_NAME=""
 # When the variable is unset, progress will be sent to Swift Dialog's main progress bar.
 
 DIALOG_KEY=""
-# Authorization key for SwiftDialog. If empty will try without key parameter
+# Authorization key for SwiftDialog. If empty will try without key parameter.
 
 NOTIFY_DIALOG=0
 # If this variable is set to 1, then we will check for installed Swift Dialog v. 2 or later, and use that for notification
@@ -352,7 +352,7 @@ if [[ $(/usr/bin/arch) == "arm64" ]]; then
     fi
 fi
 VERSION="10.9beta"
-VERSIONDATE="2026-04-17"
+VERSIONDATE="2026-05-21"
 
 # MARK: Functions
 
@@ -424,10 +424,14 @@ displaynotification() { # $1: message $2: title
 
     if [[ "$($swiftdialog --version | cut -d "." -f1)" -ge 2 && "$NOTIFY_DIALOG" -eq 1 ]]; then
         # if DIALOG_KEY is provided we add it to the arguments for swiftDialog
-        if [[ ! -z $DIALOG_KEY ]]; then
-            "$swiftdialog" --key "${DIALOG_KEY}"--notification --title "$title" --message "$message"
+        if [[ $DIALOG_KEY != "" ]]; then
+            "$swiftdialog" --key "${DIALOG_KEY}" --notification --title "$title" --message "$message"
         else
             "$swiftdialog" --notification --title "$title" --message "$message"
+        fi
+        # log authorization error
+        if [[ $? -eq 30 ]]; then
+            printlog "swiftDialog not authorized to run" INFO
         fi
     elif [[ -x "$manageaction" ]]; then
          "$manageaction" -message "$message" -title "$title" &
@@ -1416,7 +1420,6 @@ updateDialog() {
         fi
     fi
 }
-
 # NOTE: check minimal macOS requirement
 autoload is-at-least
 
@@ -9055,7 +9058,6 @@ realvncondemandassist)
     blockingProcesses=( "On-Demand Assist" "$name" )
     appCustomVersion() { echo "$(defaults read "/Applications/On-Demand-Assist-$(curl -sL "https://www.realvnc.help/" | awk -F'"' '/Mac/ && /\.zip/{print $2}' | sed -n 's:.*generic/\(.*\)/.*:\1:p')-MacOSX-universal.app/Contents/Info.plist" CFBundleShortVersionString)" | sed 's/ ([^)]*)//' ; }
     ;;
-
 vncconnect|\
 realvncserver)
     name="Real VNC Server"
@@ -10250,7 +10252,7 @@ superwhisper)
     appNewVersion=$(echo $sparkleFeed | xpath 'string(//rss/channel/item[1]/sparkle:version)' 2>/dev/null)
     expectedTeamID="XDP69BYUP9"
     ;;
-    supportapp)
+supportapp)
     name="Support"
     type="pkg"
     packageID="nl.root3.support"
