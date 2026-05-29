@@ -1,7 +1,8 @@
 arcbrowser)
     name="Arc"
     type="dmg"
-    downloadURL="https://releases.arc.net/release/Arc-latest.dmg"
-    appNewVersion="$(curl -fsIL https://releases.arc.net/release/Arc-latest.dmg | grep -i ^location | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+-[0-9]+).*/\1/')"
+    appcastURL="https://releases.arc.net/updates.xml"
+    appNewVersion="$(curl -fsL "$appcastURL" | xpath -q -e 'string(//item[1]/enclosure/@sparkle:shortVersionString)' | awk '{print $1}')"
+    downloadURL="$(curl -fsL "$appcastURL" | xpath -q -e 'string(//item[1]/enclosure/@url)')"
     expectedTeamID="S6N382Y83G"
     ;;
