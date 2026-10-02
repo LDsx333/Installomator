@@ -1,5 +1,5 @@
 reinersctcyberjackdriver)
-    name="REINER SCT cyberjack driver"
+    name="REINER SCT cyberJack driver"
     type="pkg"
     expectedTeamID="5A7M4P6EPT"
     [[ $(arch) == "arm64" ]] && arch="$(arch)" || arch="x86_64"
