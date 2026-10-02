@@ -238,7 +238,7 @@ getAppVersion() {
 
     # pkgs contains a version number, then we don't have to search for an app
     if [[ $packageID != "" ]]; then
-        appversion="$(pkgutil --pkg-info ${packageID} 2>/dev/null | grep version | sed -E 's#^version: (.+)$#\1#')"
+        appversion="$(pkgutil --pkg-info-plist "${packageID}" 2>/dev/null | plutil -extract pkg-version raw -o - -)"
         if [[ $appversion != "" ]]; then
             printlog "found packageID $packageID installed, version $appversion"
             updateDetected="YES"
